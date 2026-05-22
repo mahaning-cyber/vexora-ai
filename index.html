@@ -6,154 +6,183 @@
 <title>VEXORA AI</title>
 
 <style>
+
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Inter,Arial,sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,Arial,sans-serif;
 }
 
 body{
-    background:#ffffff;
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
+background:#ffffff;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
 }
 
-.header{
-    padding:20px;
-    text-align:center;
-    border-bottom:1px solid #eee;
+.container{
+width:100%;
+max-width:700px;
 }
 
 .logo{
-    font-size:28px;
-    font-weight:700;
-    letter-spacing:1px;
+text-align:center;
+font-size:32px;
+font-weight:800;
+letter-spacing:1px;
+margin-bottom:10px;
 }
 
-.subtitle{
-    margin-top:8px;
-    color:#666;
-    font-size:14px;
+.sub{
+text-align:center;
+color:#666;
+margin-bottom:40px;
+font-size:15px;
 }
 
-.main{
-    flex:1;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
+.chatbox{
+width:100%;
+background:#fff;
+border:1px solid #e4e4e4;
+border-radius:28px;
+padding:12px;
+box-shadow:0 8px 30px rgba(0,0,0,.08);
 }
 
-.hero{
-    width:100%;
-    max-width:700px;
-    text-align:center;
+textarea{
+width:100%;
+border:none;
+outline:none;
+resize:none;
+font-size:16px;
+padding:12px;
+min-height:80px;
 }
 
-.hero h1{
-    font-size:32px;
-    margin-bottom:12px;
+.bottom{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+margin-top:10px;
 }
 
-.hero p{
-    color:#666;
-    margin-bottom:40px;
-}
-
-.input-container{
-    background:#fff;
-    border:1px solid #ddd;
-    border-radius:24px;
-    padding:12px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    box-shadow:0 4px 20px rgba(0,0,0,.06);
+.left{
+display:flex;
+align-items:center;
+gap:10px;
 }
 
 .upload-btn{
-    width:42px;
-    height:42px;
-    border:none;
-    border-radius:50%;
-    background:#f4f4f4;
-    cursor:pointer;
-    font-size:22px;
+width:48px;
+height:48px;
+border:none;
+border-radius:50%;
+background:#f3f4f6;
+font-size:24px;
+cursor:pointer;
+transition:.2s;
 }
 
-.prompt{
-    flex:1;
-    border:none;
-    outline:none;
-    font-size:16px;
-    padding:10px;
+.upload-btn:hover{
+transform:scale(1.05);
 }
 
 .generate-btn{
-    border:none;
-    padding:12px 20px;
-    border-radius:14px;
-    background:#111;
-    color:#fff;
-    cursor:pointer;
-    font-weight:600;
+border:none;
+padding:12px 22px;
+border-radius:14px;
+background:#2563eb;
+color:#fff;
+font-size:15px;
+font-weight:600;
+cursor:pointer;
+transition:.2s;
 }
 
 .generate-btn:hover{
-    opacity:.9;
+transform:translateY(-1px);
+}
+
+.preview{
+margin-top:15px;
+display:none;
+}
+
+.preview img{
+width:100%;
+max-height:250px;
+object-fit:cover;
+border-radius:18px;
+border:1px solid #eee;
 }
 
 .footer{
-    text-align:center;
-    padding:18px;
-    color:#777;
-    font-size:13px;
+text-align:center;
+margin-top:25px;
+color:#777;
+font-size:13px;
 }
 
 @media(max-width:600px){
 
-.hero h1{
-    font-size:24px;
+.logo{
+font-size:26px;
+}
+
+.chatbox{
+border-radius:22px;
 }
 
 .generate-btn{
-    padding:10px 14px;
+padding:12px 18px;
+font-size:14px;
+}
+
+textarea{
+font-size:15px;
 }
 
 }
+
 </style>
 </head>
 
 <body>
 
-<div class="header">
-    <div class="logo">VEXORA AI</div>
-    <div class="subtitle">
-        AI Video Generator • Free & Fast
-    </div>
+<div class="container">
+
+<div class="logo">VEXORA AI</div>
+
+<div class="sub">
+Create realistic AI videos from photos
 </div>
 
-<div class="main">
+<div class="chatbox">
 
-<div class="hero">
+<textarea placeholder="Describe your video..."></textarea>
 
-<h1>Create Realistic Videos From Photos</h1>
+<div class="bottom">
 
-<p>
-Upload a photo, describe your idea and generate high-quality AI videos.
-</p>
-
-<div class="input-container">
-
-<button class="upload-btn">+</button>
+<div class="left">
 
 <input
-class="prompt"
-type="text"
-placeholder="Describe your video..."
+type="file"
+id="fileInput"
+hidden
+accept="image/*"
 >
+
+<button
+class="upload-btn"
+onclick="document.getElementById('fileInput').click()">
++
+</button>
+
+</div>
 
 <button class="generate-btn">
 Generate
@@ -161,13 +190,43 @@ Generate
 
 </div>
 
+<div class="preview" id="preview">
+<img id="previewImg">
 </div>
 
 </div>
 
 <div class="footer">
-VEXORA AI Video Generator v3.9
+VEXORA AI Video Generator
 </div>
 
+</div>
+
+<script>
+
+const fileInput =
+document.getElementById('fileInput');
+
+const preview =
+document.getElementById('preview');
+
+const previewImg =
+document.getElementById('previewImg');
+
+fileInput.addEventListener('change',e=>{
+
+const file=e.target.files[0];
+
+if(!file) return;
+
+preview.style.display='block';
+
+previewImg.src=
+URL.createObjectURL(file);
+
+});
+
+</script>
+
 </body>
-  </html>
+</html>
