@@ -6,12 +6,11 @@
 <title>VEXORA AI</title>
 
 <style>
-
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Inter,Arial,sans-serif;
+font-family:Arial,sans-serif;
 }
 
 body{
@@ -32,23 +31,20 @@ max-width:700px;
 text-align:center;
 font-size:32px;
 font-weight:800;
-letter-spacing:1px;
 margin-bottom:10px;
 }
 
 .sub{
 text-align:center;
 color:#666;
-margin-bottom:40px;
-font-size:15px;
+margin-bottom:30px;
 }
 
 .chatbox{
-width:100%;
 background:#fff;
 border:1px solid #e4e4e4;
-border-radius:28px;
-padding:12px;
+border-radius:24px;
+padding:15px;
 box-shadow:0 8px 30px rgba(0,0,0,.08);
 }
 
@@ -57,23 +53,16 @@ width:100%;
 border:none;
 outline:none;
 resize:none;
-font-size:16px;
-padding:12px;
 min-height:80px;
+font-size:16px;
+padding:10px;
 }
 
 .bottom{
 display:flex;
-align-items:center;
 justify-content:space-between;
-gap:10px;
-margin-top:10px;
-}
-
-.left{
-display:flex;
 align-items:center;
-gap:10px;
+margin-top:10px;
 }
 
 .upload-btn{
@@ -84,11 +73,6 @@ border-radius:50%;
 background:#f3f4f6;
 font-size:24px;
 cursor:pointer;
-transition:.2s;
-}
-
-.upload-btn:hover{
-transform:scale(1.05);
 }
 
 .generate-btn{
@@ -96,58 +80,29 @@ border:none;
 padding:12px 22px;
 border-radius:14px;
 background:#2563eb;
-color:#fff;
-font-size:15px;
-font-weight:600;
+color:white;
+font-weight:bold;
 cursor:pointer;
-transition:.2s;
-}
-
-.generate-btn:hover{
-transform:translateY(-1px);
 }
 
 .preview{
-margin-top:15px;
 display:none;
+margin-top:15px;
 }
 
 .preview img{
 width:100%;
 max-height:250px;
 object-fit:cover;
-border-radius:18px;
-border:1px solid #eee;
+border-radius:16px;
 }
 
 .footer{
 text-align:center;
-margin-top:25px;
+margin-top:20px;
 color:#777;
 font-size:13px;
 }
-
-@media(max-width:600px){
-
-.logo{
-font-size:26px;
-}
-
-.chatbox{
-border-radius:22px;
-}
-
-.generate-btn{
-padding:12px 18px;
-font-size:14px;
-}
-
-textarea{
-font-size:15px;
-}
-
-}
-
 </style>
 </head>
 
@@ -163,28 +118,20 @@ Create realistic AI videos from photos
 
 <div class="chatbox">
 
-<textarea placeholder="Describe your video..."></textarea>
+<textarea id="prompt" placeholder="Describe your video..."></textarea>
 
 <div class="bottom">
 
-<div class="left">
+<div>
+<input type="file" id="fileInput" hidden accept="image/*">
 
-<input
-type="file"
-id="fileInput"
-hidden
-accept="image/*"
->
-
-<button
-class="upload-btn"
+<button class="upload-btn"
 onclick="document.getElementById('fileInput').click()">
 +
 </button>
-
 </div>
 
-<button class="generate-btn">
+<button class="generate-btn" id="generateBtn">
 Generate
 </button>
 
@@ -204,80 +151,73 @@ VEXORA AI Video Generator
 
 <script>
 
-<script>
+const fileInput = document.getElementById("fileInput");
+const preview = document.getElementById("preview");
+const previewImg = document.getElementById("previewImg");
+const generateBtn = document.getElementById("generateBtn");
 
-const fileInput =
-document.getElementById('fileInput');
+fileInput.addEventListener("change", function(){
 
-const preview =
-document.getElementById('preview');
-
-const previewImg =
-document.getElementById('previewImg');
-
-fileInput.addEventListener('change',e=>{
-
-const file=e.target.files[0];
+const file = this.files[0];
 
 if(!file) return;
 
-preview.style.display='block';
-previewImg.src=URL.createObjectURL(file);
+preview.style.display = "block";
+previewImg.src = URL.createObjectURL(file);
 
 });
 
-const generateBtn =
-document.querySelector('.generate-btn');
+generateBtn.addEventListener("click", function(){
 
-generateBtn.addEventListener('click', async ()=>{
-
-if(fileInput.files.length===0){
-alert('Please upload a photo');
+if(fileInput.files.length === 0){
+alert("Please upload a photo");
 return;
 }
 
 const prompt =
-document.querySelector('textarea').value.trim();
+document.getElementById("prompt").value.trim();
 
-if(prompt===''){
-alert('Please describe your video');
+if(prompt === ""){
+alert("Please describe your video");
 return;
 }
 
-generateBtn.disabled=true;
+generateBtn.disabled = true;
 
-const steps=[
-'Analyzing photo...',
-'Understanding prompt...',
-'Preparing motion...',
-'Generating video...',
-'Finalizing result...'
+const steps = [
+"Analyzing photo...",
+"Understanding prompt...",
+"Preparing motion...",
+"Generating video...",
+"Finalizing result..."
 ];
 
-let i=0;
+let i = 0;
 
-generateBtn.textContent=steps[i];
+generateBtn.textContent = steps[i];
 
-const interval=setInterval(()=>{
+const timer = setInterval(function(){
 
 i++;
 
-if(i<steps.length){
-generateBtn.textContent=steps[i];
+if(i < steps.length){
+
+generateBtn.textContent = steps[i];
+
 }else{
-clearInterval(interval);
 
-generateBtn.textContent=
-'Video Generation Completed';
+clearInterval(timer);
 
-generateBtn.disabled=false;
+generateBtn.textContent =
+"Video Generation Completed";
+
+generateBtn.disabled = false;
+
 }
 
 },1500);
 
 });
-
-</script>
 
 </script>
 
