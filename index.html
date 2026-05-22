@@ -204,6 +204,8 @@ VEXORA AI Video Generator
 
 <script>
 
+<script>
+
 const fileInput =
 document.getElementById('fileInput');
 
@@ -220,11 +222,62 @@ const file=e.target.files[0];
 if(!file) return;
 
 preview.style.display='block';
-
-previewImg.src=
-URL.createObjectURL(file);
+previewImg.src=URL.createObjectURL(file);
 
 });
+
+const generateBtn =
+document.querySelector('.generate-btn');
+
+generateBtn.addEventListener('click', async ()=>{
+
+if(fileInput.files.length===0){
+alert('Please upload a photo');
+return;
+}
+
+const prompt =
+document.querySelector('textarea').value.trim();
+
+if(prompt===''){
+alert('Please describe your video');
+return;
+}
+
+generateBtn.disabled=true;
+
+const steps=[
+'Analyzing photo...',
+'Understanding prompt...',
+'Preparing motion...',
+'Generating video...',
+'Finalizing result...'
+];
+
+let i=0;
+
+generateBtn.textContent=steps[i];
+
+const interval=setInterval(()=>{
+
+i++;
+
+if(i<steps.length){
+generateBtn.textContent=steps[i];
+}else{
+clearInterval(interval);
+
+generateBtn.textContent=
+'Video Generation Completed';
+
+generateBtn.disabled=false;
+}
+
+},1500);
+
+});
+
+</script>
 
 </script>
 
