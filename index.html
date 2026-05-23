@@ -179,24 +179,64 @@ Duration
 <button class="option-btn">7s</button>
 <button class="option-btn">8s</button>
 
+<div class="setting-group">
+
 <div class="setting-title">
 Size
 </div>
 
-<button class="option-btn active">Auto</button>
-<button class="option-btn">Portrait</button>
-<button class="option-btn">Landscape</button>
-<button class="option-btn">Square</button>
+<button class="option-btn active">
+Auto
+</button>
+
+<button class="option-btn">
+9:16 Shorts
+</button>
+
+<button class="option-btn">
+16:9 YouTube
+</button>
+
+<button class="option-btn">
+1:1 Square
+</button>
+
+</div>
 <div class="setting-title">
 Quality
 </div>
 
-<button class="option-btn">P360</button>
-<button class="option-btn">P480</button>
-<button class="option-btn active">P720 HD</button>
-<button class="option-btn">P1080 FHD</button>
-<button class="option-btn">P1440 QHD</button>
-<button class="option-btn">P2160 4K</button>
+<div class="setting-group">
+
+<div class="setting-title">
+Quality
+</div>
+
+<button class="option-btn">
+360p
+</button>
+
+<button class="option-btn">
+480p
+</button>
+
+<button class="option-btn active">
+720p HD
+</button>
+
+<button class="option-btn">
+1080p Full HD
+</button>
+
+<button class="option-btn">
+1440p QHD
+</button>
+
+<button class="option-btn">
+2160p 4K
+</button>
+
+</div>
 
 </div>
 
@@ -301,7 +341,15 @@ title.classList.contains("setting-title")){
 return;
 }
 
-this.classList.toggle("active");
+const group =
+this.parentElement;
+
+group.querySelectorAll(".option-btn")
+.forEach(btn=>{
+btn.classList.remove("active");
+});
+
+this.classList.add("active");
 
 });
 
