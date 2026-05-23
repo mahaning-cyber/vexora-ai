@@ -6,438 +6,390 @@
 <title>VEXORA AI</title>
 
 <style>
-:root{
-    --bg:#f5f7fb;
-    --card:#ffffff;
-    --text:#111827;
-    --muted:#6b7280;
-    --border:#e5e7eb;
-    --primary:#2563eb;
-    --primary2:#3b82f6;
-    --shadow:0 10px 30px rgba(0,0,0,.08);
-    --radius:20px;
-}
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
 }
 
 body{
-    font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;
-    background:var(--bg);
-    color:var(--text);
-    min-height:100vh;
+background:#ffffff;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
 }
 
 .container{
-    width:100%;
-    max-width:900px;
-    margin:auto;
-    padding:16px;
-}
-
-.header{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px 0;
+width:100%;
+max-width:700px;
 }
 
 .logo{
-    font-size:28px;
-    font-weight:800;
-    letter-spacing:1px;
+text-align:center;
+font-size:36px;
+font-weight:800;
+margin-bottom:8px;
+color:#111827;
 }
 
-.logo span{
-    color:var(--primary);
+.sub{
+text-align:center;
+color:#6b7280;
+margin-bottom:30px;
+font-size:15px;
 }
 
-.card{
-    background:var(--card);
-    border-radius:var(--radius);
-    box-shadow:var(--shadow);
-    padding:18px;
-    border:1px solid var(--border);
+.chatbox{
+background:#ffffff;
+border:1px solid #e5e7eb;
+border-radius:24px;
+padding:18px;
+box-shadow:0 10px 30px rgba(0,0,0,.08);
 }
 
-.textarea{
-    width:100%;
-    min-height:180px;
-    resize:none;
-    border:none;
-    outline:none;
-    font-size:16px;
-    background:transparent;
-    color:var(--text);
-    line-height:1.6;
-}
-
-.actions{
-    display:flex;
-    gap:10px;
-    margin-top:15px;
-    align-items:center;
-    flex-wrap:wrap;
-}
-
-.icon-btn{
-    width:48px;
-    height:48px;
-    border:none;
-    border-radius:14px;
-    cursor:pointer;
-    background:#f3f4f6;
-    font-size:22px;
-    transition:.2s;
-}
-
-.icon-btn:hover{
-    transform:translateY(-2px);
-}
-
-.generate-btn{
-    flex:1;
-    min-height:48px;
-    border:none;
-    cursor:pointer;
-    border-radius:14px;
-    color:#fff;
-    font-weight:700;
-    font-size:15px;
-    background:linear-gradient(135deg,#2563eb,#60a5fa);
-    transition:.25s;
-}
-
-.generate-btn:hover{
-    transform:translateY(-2px);
+textarea{
+width:100%;
+border:none;
+outline:none;
+resize:none;
+min-height:100px;
+font-size:16px;
+padding:10px;
 }
 
 .settings-panel{
-    display:none;
-    margin-top:16px;
-    animation:fade .25s ease;
+display:none;
+margin-top:15px;
+padding:15px;
+border:1px solid #e5e7eb;
+border-radius:16px;
+background:#fafafa;
 }
 
-.settings-panel.active{
-    display:block;
+.setting-group{
+margin-bottom:15px;
 }
 
-@keyframes fade{
-    from{
-        opacity:0;
-        transform:translateY(-8px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
+.setting-title{
+font-size:14px;
+font-weight:700;
+margin-bottom:10px;
+color:#111827;
 }
 
-.section{
-    margin-bottom:20px;
+.option-btn{
+border:none;
+padding:8px 12px;
+margin:4px;
+border-radius:10px;
+background:#e5e7eb;
+cursor:pointer;
+font-size:14px;
 }
 
-.section-title{
-    font-size:15px;
-    font-weight:700;
-    margin-bottom:10px;
+.option-btn.active{
+background:#2563eb;
+color:white;
+}
+.controls{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-top:12px;
 }
 
-.options{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
+.left-buttons{
+display:flex;
+gap:10px;
 }
 
-.option{
-    border:1px solid var(--border);
-    background:#fff;
-    padding:10px 14px;
-    border-radius:12px;
-    cursor:pointer;
-    transition:.2s;
-    font-size:14px;
+.upload-btn,
+.settings-btn{
+width:48px;
+height:48px;
+border:none;
+border-radius:50%;
+background:#f3f4f6;
+font-size:22px;
+cursor:pointer;
+transition:.2s;
 }
 
-.option.active{
-    background:#2563eb;
-    color:#fff;
-    border-color:#2563eb;
+.upload-btn:hover,
+.settings-btn:hover{
+background:#2563eb;
+color:white;
 }
 
-.preview-box{
-    margin-top:15px;
-    display:none;
+.generate-btn{
+border:none;
+padding:12px 22px;
+border-radius:14px;
+background:#2563eb;
+color:white;
+font-weight:bold;
+cursor:pointer;
 }
 
-.preview-box.show{
-    display:block;
+.preview{
+display:none;
+margin-top:15px;
 }
 
-.preview-wrapper{
-    position:relative;
-    width:100%;
-}
-
-.preview-image{
-    width:100%;
-    max-height:300px;
-    object-fit:cover;
-    border-radius:16px;
-    border:1px solid var(--border);
-}
-
-.remove-btn{
-    position:absolute;
-    top:10px;
-    right:10px;
-    border:none;
-    width:38px;
-    height:38px;
-    border-radius:50%;
-    background:#ef4444;
-    color:#fff;
-    cursor:pointer;
-    font-size:18px;
-}
-
-.info{
-    margin-top:16px;
-    color:var(--muted);
-    font-size:13px;
-    text-align:center;
+.preview img{
+width:100%;
+max-height:260px;
+object-fit:cover;
+border-radius:16px;
 }
 
 .footer{
-    padding:25px 0;
-    text-align:center;
-    color:var(--muted);
-    font-size:13px;
+text-align:center;
+margin-top:20px;
+color:#777;
+font-size:13px;
 }
 
-@media (max-width:600px){
-    .logo{
-        font-size:24px;
-    }
-
-    .textarea{
-        min-height:150px;
-    }
-
-    .generate-btn{
-        width:100%;
-        flex:none;
-    }
-}
 </style>
 </head>
+
 <body>
 
 <div class="container">
 
-    <div class="header">
-        <div class="logo">VEXORA <span>AI</span></div>
-    </div>
+<div class="logo">VEXORA AI</div>
 
-    <div class="card">
+<div class="sub">
+Create realistic AI videos from photos
+</div>
 
-        <textarea
-            id="prompt"
-            class="textarea"
-            placeholder="Describe the video you want to generate..."
-        ></textarea>
+<div class="chatbox">
 
-        <div class="preview-box" id="previewBox">
-            <div class="preview-wrapper">
-                <img id="previewImage" class="preview-image" alt="Preview">
-                <button class="remove-btn" id="removeImage">✕</button>
-            </div>
-        </div>
+<textarea
+id="prompt"
+placeholder="Describe your video..."></textarea>
 
-        <div class="actions">
+<div
+class="settings-panel"
+id="settingsPanel">
 
-            <input type="file" id="imageInput" accept="image/*" hidden>
+<div class="setting-group">
 
-            <button class="icon-btn" id="uploadBtn">+</button>
+<div class="setting-title">
+Duration
+</div>
 
-            <button class="icon-btn" id="settingsBtn">⚙</button>
+<button class="option-btn active">4s</button>
+<button class="option-btn">5s</button>
+<button class="option-btn">6s</button>
+<button class="option-btn">7s</button>
+<button class="option-btn">8s</button>
 
-            <button class="generate-btn" id="generateBtn">
-                Generate Video
-            </button>
+</div>
 
-        </div>
+<div class="setting-group">
 
-        <div class="settings-panel" id="settingsPanel">
+<div class="setting-title">
+Quality
+</div>
 
-            <div class="section">
+<button class="option-btn">360p</button>
+<button class="option-btn">480p</button>
+<button class="option-btn active">720p HD</button>
+<button class="option-btn">1080p Full HD</button>
+<button class="option-btn">1440p QHD</button>
+<button class="option-btn">2160p 4K</button>
 
-                <div class="section-title">Duration</div>
+</div>
 
-                <div class="options single-group" data-group="duration">
-                    <button class="option active">4s</button>
-                    <button class="option">5s</button>
-                    <button class="option">6s</button>
-                    <button class="option">7s</button>
-                    <button class="option">8s</button>
-                </div>
+</div>
+<input
+type="file"
+id="fileInput"
+hidden
+accept="image/*">
 
-            </div>
+<div class="controls">
 
-            <div class="section">
+<div class="left-buttons">
 
-                <div class="section-title">Video Size</div>
+<button
+class="upload-btn"
+onclick="document.getElementById('fileInput').click()">
++
+</button>
 
-                <div class="options single-group" data-group="size">
-                    <button class="option active">Auto</button>
-                    <button class="option">9:16 Shorts (1080×1920)</button>
-                    <button class="option">16:9 YouTube (1920×1080)</button>
-                    <button class="option">1:1 Square (1080×1080)</button>
-                </div>
+<button
+class="settings-btn"
+id="settingsBtn">
+⚙
+</button>
 
-            </div>
+</div>
 
-            <div class="section">
+<button
+class="generate-btn"
+id="generateBtn">
+Generate
+</button>
 
-                <div class="section-title">Quality</div>
+</div>
 
-                <div class="options single-group" data-group="quality">
-                    <button class="option">360p</button>
-                    <button class="option">480p</button>
-                    <button class="option active">720p HD</button>
-                    <button class="option">1080p Full HD</button>
-                    <button class="option">1440p QHD</button>
-                    <button class="option">2160p 4K</button>
-                </div>
+<div
+class="preview"
+id="preview">
 
-            </div>
+<img id="previewImg">
 
-        </div>
+</div>
 
-        <div class="info">
-            Optimized for mobile devices • Lightweight • Fast UI
-        </div>
+</div>
 
-    </div>
-
-    <div class="footer">
-        © 2026 VEXORA AI
-    </div>
+<div class="footer">
+VEXORA AI Video Generator
+</div>
 
 </div>
 
 <script>
-const settingsBtn = document.getElementById("settingsBtn");
-const settingsPanel = document.getElementById("settingsPanel");
 
-settingsBtn.addEventListener("click", () => {
-    settingsPanel.classList.toggle("active");
-});
+const fileInput =
+document.getElementById("fileInput");
 
-document.querySelectorAll(".single-group").forEach(group => {
+const preview =
+document.getElementById("preview");
 
-    const options = group.querySelectorAll(".option");
+const previewImg =
+document.getElementById("previewImg");
 
-    options.forEach(btn => {
+const generateBtn =
+document.getElementById("generateBtn");
 
-        btn.addEventListener("click", () => {
+const settingsBtn =
+document.getElementById("settingsBtn");
 
-            options.forEach(o => o.classList.remove("active"));
+const settingsPanel =
+document.getElementById("settingsPanel");
 
-            btn.classList.add("active");
+fileInput.addEventListener("change", function(){
 
-        });
+const file = this.files[0];
 
-    });
+if(!file) return;
 
-});
-
-const imageInput = document.getElementById("imageInput");
-const uploadBtn = document.getElementById("uploadBtn");
-const previewBox = document.getElementById("previewBox");
-const previewImage = document.getElementById("previewImage");
-const removeImage = document.getElementById("removeImage");
-
-uploadBtn.addEventListener("click", () => {
-    imageInput.click();
-});
-
-imageInput.addEventListener("change", e => {
-
-    const file = e.target.files[0];
-
-    if(!file) return;
-
-    const reader = new FileReader();
-
-    reader.onload = function(event){
-
-        previewImage.src = event.target.result;
-
-        previewBox.classList.add("show");
-
-    };
-
-    reader.readAsDataURL(file);
+preview.style.display = "block";
+previewImg.src = URL.createObjectURL(file);
 
 });
 
-removeImage.addEventListener("click", () => {
+settingsBtn.addEventListener("click", function(){
 
-    imageInput.value = "";
-
-    previewImage.src = "";
-
-    previewBox.classList.remove("show");
+if(settingsPanel.style.display === "block"){
+settingsPanel.style.display = "none";
+}else{
+settingsPanel.style.display = "block";
+}
 
 });
 
-function getSelected(groupName){
+/* Duration group */
+const durationButtons =
+document.querySelectorAll(
+".setting-group:nth-child(1) .option-btn"
+);
 
-    const group = document.querySelector(
-        '.single-group[data-group="' + groupName + '"]'
-    );
+durationButtons.forEach(btn=>{
 
-    return group.querySelector(".active").textContent.trim();
+btn.addEventListener("click", function(){
+
+durationButtons.forEach(b=>
+b.classList.remove("active")
+);
+
+this.classList.add("active");
+
+});
+
+});
+
+/* Quality group */
+const qualityButtons =
+document.querySelectorAll(
+".setting-group:nth-child(2) .option-btn"
+);
+
+qualityButtons.forEach(btn=>{
+
+btn.addEventListener("click", function(){
+
+qualityButtons.forEach(b=>
+b.classList.remove("active")
+);
+
+this.classList.add("active");
+
+});
+
+});
+
+generateBtn.addEventListener("click", function(){
+
+if(fileInput.files.length === 0){
+alert("Please upload a photo");
+return;
+}
+
+const prompt =
+document.getElementById("prompt").value.trim();
+
+if(prompt === ""){
+alert("Please describe your video");
+return;
+}
+
+generateBtn.disabled = true;
+
+const steps = [
+"Analyzing photo...",
+"Understanding prompt...",
+"Preparing motion...",
+"Generating video...",
+"Finalizing result..."
+];
+
+let i = 0;
+
+generateBtn.textContent = steps[i];
+
+const timer = setInterval(function(){
+
+i++;
+
+if(i < steps.length){
+
+generateBtn.textContent = steps[i];
+
+}else{
+
+clearInterval(timer);
+
+generateBtn.textContent =
+"Video Generation Completed";
+
+generateBtn.disabled = false;
 
 }
 
-document.getElementById("generateBtn")
-.addEventListener("click", () => {
-
-    const prompt =
-        document.getElementById("prompt").value.trim();
-
-    const duration = getSelected("duration");
-    const size = getSelected("size");
-    const quality = getSelected("quality");
-
-    const data = {
-        prompt,
-        duration,
-        size,
-        quality,
-        imageUploaded:
-            previewBox.classList.contains("show")
-    };
-
-    console.clear();
-    console.log("VEXORA AI Request");
-    console.log(data);
-
-    alert(
-        "Generate Clicked\\n\\n" +
-        "Duration: " + duration + "\\n" +
-        "Size: " + size + "\\n" +
-        "Quality: " + quality
-    );
+},1500);
 
 });
+
 </script>
 
 </body>
-          </html>
+    </html>
+
