@@ -6,6 +6,7 @@
 <title>VEXORA AI</title>
 
 <style>
+
 *{
 margin:0;
 padding:0;
@@ -29,7 +30,7 @@ max-width:700px;
 
 .logo{
 text-align:center;
-font-size:32px;
+font-size:34px;
 font-weight:800;
 margin-bottom:10px;
 }
@@ -42,10 +43,10 @@ margin-bottom:30px;
 
 .chatbox{
 background:#fff;
-border:1px solid #e4e4e4;
+border:1px solid #e5e5e5;
 border-radius:24px;
-padding:15px;
-box-shadow:0 8px 30px rgba(0,0,0,.08);
+padding:16px;
+box-shadow:0 10px 30px rgba(0,0,0,.08);
 }
 
 textarea{
@@ -53,26 +54,67 @@ width:100%;
 border:none;
 outline:none;
 resize:none;
-min-height:80px;
 font-size:16px;
+min-height:90px;
 padding:10px;
 }
 
-.bottom{
+.settings-panel{
+display:none;
+margin-top:15px;
+padding:12px;
+border:1px solid #e5e5e5;
+border-radius:16px;
+background:#fafafa;
+}
+
+.setting-title{
+font-size:14px;
+font-weight:bold;
+margin:12px 0 8px;
+}
+
+.option-btn{
+border:none;
+padding:8px 12px;
+margin:4px;
+border-radius:10px;
+background:#ececec;
+cursor:pointer;
+}
+
+.option-btn.active{
+background:#2563eb;
+color:white;
+}
+  .controls{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-top:10px;
+margin-top:12px;
 }
 
-.upload-btn{
+.left-buttons{
+display:flex;
+gap:10px;
+}
+
+.upload-btn,
+.settings-btn{
 width:48px;
 height:48px;
 border:none;
 border-radius:50%;
 background:#f3f4f6;
-font-size:24px;
+font-size:22px;
 cursor:pointer;
+transition:0.2s;
+}
+
+.upload-btn:hover,
+.settings-btn:hover{
+background:#2563eb;
+color:white;
 }
 
 .generate-btn{
@@ -92,7 +134,7 @@ margin-top:15px;
 
 .preview img{
 width:100%;
-max-height:250px;
+max-height:260px;
 object-fit:cover;
 border-radius:16px;
 }
@@ -103,56 +145,7 @@ margin-top:20px;
 color:#777;
 font-size:13px;
 }
-  .settings-btn{
-width:48px;
-height:48px;
-border:none;
-border-radius:50%;
-background:#f3f4f6;
-font-size:20px;
-cursor:pointer;
-}
 
-.controls{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-top:10px;
-}
-
-.left-buttons{
-display:flex;
-gap:10px;
-}
-
-.settings-panel{
-display:none;
-margin-top:15px;
-padding:12px;
-border:1px solid #e4e4e4;
-border-radius:16px;
-background:#fafafa;
-}
-
-.setting-title{
-font-size:14px;
-font-weight:bold;
-margin:10px 0;
-}
-
-.option-btn{
-border:none;
-padding:8px 12px;
-margin:4px;
-border-radius:10px;
-background:#e5e7eb;
-cursor:pointer;
-}
-
-.option-btn.active{
-background:#2563eb;
-color:white;
-  }
 </style>
 </head>
 
@@ -168,26 +161,36 @@ Create realistic AI videos from photos
 
 <div class="chatbox">
 
-<textarea id="prompt" placeholder="Describe your video..."></textarea>
+<textarea
+id="prompt"
+placeholder="Describe your video..."></textarea>
 
-<input type="file" id="fileInput" hidden accept="image/*">
+<div
+class="settings-panel"
+id="settingsPanel">
 
-<div class="settings-panel" id="settingsPanel">
+<div class="setting-title">
+Duration
+</div>
 
-<div class="setting-title">Duration</div>
 <button class="option-btn active">4s</button>
 <button class="option-btn">5s</button>
 <button class="option-btn">6s</button>
 <button class="option-btn">7s</button>
 <button class="option-btn">8s</button>
 
-<div class="setting-title">Size</div>
+<div class="setting-title">
+Size
+</div>
+
 <button class="option-btn active">Auto</button>
 <button class="option-btn">Portrait</button>
 <button class="option-btn">Landscape</button>
 <button class="option-btn">Square</button>
+<div class="setting-title">
+Quality
+</div>
 
-<div class="setting-title">Quality</div>
 <button class="option-btn">P360</button>
 <button class="option-btn">P480</button>
 <button class="option-btn active">P720 HD</button>
@@ -197,31 +200,44 @@ Create realistic AI videos from photos
 
 </div>
 
+<input
+type="file"
+id="fileInput"
+hidden
+accept="image/*">
+
 <div class="controls">
 
 <div class="left-buttons">
 
-<button class="upload-btn"
+<button
+class="upload-btn"
 onclick="document.getElementById('fileInput').click()">
 +
 </button>
 
-<button class="settings-btn" id="settingsBtn">
+<button
+class="settings-btn"
+id="settingsBtn">
 ⚙
 </button>
 
 </div>
 
-<button class="generate-btn" id="generateBtn">
+<button
+class="generate-btn"
+id="generateBtn">
 Generate
 </button>
 
-  </div>
-
 </div>
 
-<div class="preview" id="preview">
+<div
+class="preview"
+id="preview">
+
 <img id="previewImg">
+
 </div>
 
 </div>
@@ -234,17 +250,24 @@ VEXORA AI Video Generator
 
 <script>
 
-const fileInput = document.getElementById("fileInput");
-const preview = document.getElementById("preview");
-const previewImg = document.getElementById("previewImg");
-const generateBtn = document.getElementById("generateBtn");
+const fileInput =
+document.getElementById("fileInput");
+
+const preview =
+document.getElementById("preview");
+
+const previewImg =
+document.getElementById("previewImg");
+
+const generateBtn =
+document.getElementById("generateBtn");
+
 const settingsBtn =
 document.getElementById("settingsBtn");
 
 const settingsPanel =
 document.getElementById("settingsPanel");
-
-fileInput.addEventListener("change", function(){
+  fileInput.addEventListener("change", function(){
 
 const file = this.files[0];
 
@@ -254,7 +277,8 @@ preview.style.display = "block";
 previewImg.src = URL.createObjectURL(file);
 
 });
-  settingsBtn.addEventListener("click", function(){
+
+settingsBtn.addEventListener("click", function(){
 
 if(settingsPanel.style.display === "block"){
 settingsPanel.style.display = "none";
@@ -267,9 +291,17 @@ settingsPanel.style.display = "block";
 document.querySelectorAll(".option-btn")
 .forEach(btn=>{
 
-btn.addEventListener("click",()=>{
+btn.addEventListener("click", function(){
 
-btn.classList.toggle("active");
+const title =
+this.previousElementSibling;
+
+if(title &&
+title.classList.contains("setting-title")){
+return;
+}
+
+this.classList.toggle("active");
 
 });
 
