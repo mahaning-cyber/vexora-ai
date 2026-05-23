@@ -238,6 +238,11 @@ const fileInput = document.getElementById("fileInput");
 const preview = document.getElementById("preview");
 const previewImg = document.getElementById("previewImg");
 const generateBtn = document.getElementById("generateBtn");
+const settingsBtn =
+document.getElementById("settingsBtn");
+
+const settingsPanel =
+document.getElementById("settingsPanel");
 
 fileInput.addEventListener("change", function(){
 
@@ -247,6 +252,26 @@ if(!file) return;
 
 preview.style.display = "block";
 previewImg.src = URL.createObjectURL(file);
+
+});
+  settingsBtn.addEventListener("click", function(){
+
+if(settingsPanel.style.display === "block"){
+settingsPanel.style.display = "none";
+}else{
+settingsPanel.style.display = "block";
+}
+
+});
+
+document.querySelectorAll(".option-btn")
+.forEach(btn=>{
+
+btn.addEventListener("click",()=>{
+
+btn.classList.toggle("active");
+
+});
 
 });
 
